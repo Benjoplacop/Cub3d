@@ -6,7 +6,7 @@
 /*   By: bhennequ <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 14:18:51 by bhennequ          #+#    #+#             */
-/*   Updated: 2023/06/27 13:52:04 by bhennequ         ###   ########.fr       */
+/*   Updated: 2023/07/21 20:05:05 by bhennequ         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef	struct	s_data
 	char	*sol;
 	char	*plafond;
 	char	**map;
+	int	max_size;
 }				t_data;
 
 typedef struct s_point
@@ -42,5 +43,5 @@ typedef struct s_point
 
 t_data  *take_map(int fd, t_data *vars);
 char	*get_next_line(int fd);
-int map_is_valid(t_data *vars);
+int 	map_is_valid(t_data *vars);
 #endif
