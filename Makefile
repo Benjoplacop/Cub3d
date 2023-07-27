@@ -1,6 +1,6 @@
 NAME = Cub3D
 
-SRCS = main.c get_next_line.c map.c
+SRCS = main.c get_next_line.c map.c free.c
 OBJS = $(SRCS:.c=.o)
 
 LIBFT_DIR = libft
