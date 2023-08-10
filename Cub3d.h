@@ -6,7 +6,7 @@
 /*   By: bhennequ <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 14:18:51 by bhennequ          #+#    #+#             */
-/*   Updated: 2023/07/18 19:03:26 by bhennequ         ###   ########.fr       */
+/*   Updated: 2023/08/09 16:14:06 by bhennequ         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 # define CUB3D
 
 # define WIDTH 1920
-# define HEIGTH 1080
+# define HEIGHT 1080
+# define BUFFER_SIZE 2064
 
+# include <math.h>
 # include "libft/libft.h"
 # include <stdio.h>
 # include <fcntl.h>
@@ -24,9 +26,54 @@
 
 typedef struct	s_point
 {
-	int	x;
-	int	y;
+	int		x;
+	int		y;
+	char	dir;
 }				t_point;
+
+typedef struct	s_path
+{
+	char	*path_north;
+	char	*path_south;
+	char	*path_west;
+	char	*path_east;
+	char	*sol;
+	char	*plafond;
+}				t_path;
+
+typedef	struct	s_position
+{
+	double	x;
+	double	y;
+	double	dirX;
+	double	dirY;
+	double	planeX;
+	double	planeY;
+	double	raydirX;
+	double	raydirY;
+	double	cameraX;
+	double	deltaDistX;
+	double	deltaDistY;
+	double	sideDistX;
+	double	sideDistY;
+	double	perpWallDist;
+	int		side;
+	int		stepX;
+	int		stepY;
+	int		mapX;
+	int		mapY;
+	int		lineHeight;
+	int		drawStart;
+	int		drawEnd;
+}				t_position;
+
+typedef	struct	s_texture
+{
+	void	*img_north;
+	void	*img_south;
+	void	*img_west;
+	void	*img_east;
+}				t_texture;
 
 typedef	struct	s_data
 {
@@ -35,24 +82,30 @@ typedef	struct	s_data
 	void	*win;
 	void	*img;
 	void	*addr;
+	int		endian;
+	int		color;
+	char	*img_data;
 	int		bits_per_pixel;
 	int		line_length;
-	char	*path_north;
-	char	*path_south;
-	char	*path_west;
-	char	*path_east;
-	char	*sol;
-	char	*plafond;
+	int		img_width;
+	int		img_heigth;
 	char	**map;
 	int		size_line;
 	int		error;
-	t_point	init_pos;
+	t_path		*path;
+	t_texture	*texture;
+	t_point		init_pos;
+	t_position	*position;
 }				t_data;
 
+void    my_mlx_pixel_put(t_data *vars, int x, int y, int color);
 int destroy(t_data *vars);
+int	init_raycasting(t_data *vars);
 void    free_all_data(t_data *vars);
 int map_is_close(t_data *vars);
 t_data  *take_map(int fd, t_data *vars);
 char	*get_next_line(int fd);
 t_data *map_is_valid(t_data *vars);
+int transform_color(char *texture);
+int key_utils(int key, t_data *vars);
 #endif
