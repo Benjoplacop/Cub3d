@@ -1,4 +1,4 @@
-NAME = Cub3D
+NAME = cub3D
 
 SRCS = src/main.c src/get_next_line.c src/map.c src/free.c src/raycasting.c src/color.c src/key.c
 OBJS = $(SRCS:.c=.o)

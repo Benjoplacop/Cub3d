@@ -6,7 +6,7 @@
 /*   By: bhennequ <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 14:18:51 by bhennequ          #+#    #+#             */
-/*   Updated: 2023/08/09 16:14:06 by bhennequ         ###   ########.fr       */
+/*   Updated: 2023/08/17 15:51:11 by bhennequ         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ typedef	struct	s_position
 	double	sideDistX;
 	double	sideDistY;
 	double	perpWallDist;
+	int		texY;
+	int		texX;
 	int		side;
 	int		stepX;
 	int		stepY;
@@ -69,10 +71,11 @@ typedef	struct	s_position
 
 typedef	struct	s_texture
 {
-	void	*img_north;
-	void	*img_south;
-	void	*img_west;
-	void	*img_east;
+	void	*img;
+	int		*data;
+	int		width;
+	int		height;
+	int		line_length;
 }				t_texture;
 
 typedef	struct	s_data
@@ -98,14 +101,17 @@ typedef	struct	s_data
 	t_position	*position;
 }				t_data;
 
-void    my_mlx_pixel_put(t_data *vars, int x, int y, int color);
-int destroy(t_data *vars);
-int	init_raycasting(t_data *vars);
-void    free_all_data(t_data *vars);
-int map_is_close(t_data *vars);
-t_data  *take_map(int fd, t_data *vars);
-char	*get_next_line(int fd);
-t_data *map_is_valid(t_data *vars);
-int transform_color(char *texture);
-int key_utils(int key, t_data *vars);
+t_texture	*load_texture(t_data *vars);
+t_data		*take_texture(t_data *vars);
+void    	my_mlx_pixel_put(t_data *vars, int x, int y, int color);
+int 		destroy(t_data *vars);
+int			init_raycasting(t_data *vars);
+void    	free_all_data(t_data *vars);
+int 		map_is_close(t_data *vars);
+t_data  	*take_map(int fd, t_data *vars);
+char		*get_next_line(int fd);
+t_data		*map_is_valid(t_data *vars);
+t_data		*init_direction(t_data *vars);
+int 		transform_color(char *texture);
+int 		key_utils(int key, t_data *vars);
 #endif

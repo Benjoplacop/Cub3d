@@ -6,7 +6,7 @@
 /*   By: bhennequ <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 16:40:21 by bhennequ          #+#    #+#             */
-/*   Updated: 2023/08/09 17:12:04 by bhennequ         ###   ########.fr       */
+/*   Updated: 2023/08/19 12:20:19 by bhennequ         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,26 +129,63 @@ t_data	*wall_dist(t_data *vars)
 	return (vars);
 }
 
+t_data	*calcul_text(t_data *vars, int tex_num, int j)
+{
+	int		tex_width;
+	int		tex_height;
+	double	wall_x;
+
+	tex_width = vars->texture[tex_num].width;
+	tex_height = vars->texture[tex_num].height;
+	if (vars->position->side == 0)
+		wall_x = vars->position->y + vars->position->perpWallDist * vars->position->raydirY;
+	else
+		wall_x = vars->position->x + vars->position->perpWallDist * vars->position->raydirX;
+	wall_x -= floor(wall_x);
+	vars->position->texX = (int)(wall_x * (double)tex_width);
+	vars->position->texY = ((((j - HEIGHT / 2 + vars->position->lineHeight / 2) * tex_height) / vars->position->lineHeight) % tex_height);
+	return (vars);
+}
+
 void	draw_image(t_data *vars, int i)
 {
 	int	j;
+	int	sol;
+	int	plafond;
+	int	tex_num;
 
+	sol = transform_color(vars->path->sol);
+	plafond = transform_color(vars->path->plafond);
 	j = 0;
 	while (j < HEIGHT)
 	{
 		if (j >= vars->position->drawStart && j <= vars->position->drawEnd)
 		{
 			if (vars->position->side == 0)
-					vars->color = 0xFF0000;
+			{		
+				//vars->color = 0xFF0000;
+				if (vars->position->raydirX > 0)
+					tex_num = 2;
+				else
+					tex_num = 3;
+			}
 			else
-					vars->color = 0x00FF00;
+			{
+				//vars->color = 0x00FF00;
+				if (vars->position->raydirY > 0)
+					tex_num = 1;
+				else
+					tex_num = 0;
+			}
+			vars = calcul_text(vars, tex_num, j);
+			vars->color = vars->texture[tex_num].data[vars->position->texY * vars->texture[tex_num].width + vars->position->texX];
 		}
 		else
 		{
 			if (j < HEIGHT / 2)
-				vars->color = transform_color(vars->path->sol);
+				vars->color = sol;
 			else
-				vars->color = transform_color(vars->path->plafond);
+				vars->color = plafond;
 		}
 		my_mlx_pixel_put(vars, i, j, vars->color);
 		j++;
@@ -160,7 +197,8 @@ int	init_raycasting(t_data *vars)
 	int	i;
 
 	i = 0;
-	vars = init_direction(vars);
+	if (vars->img)
+		mlx_destroy_image(vars->mlx, vars->img);
 	vars->img = mlx_new_image(vars->mlx, WIDTH, HEIGHT);
 	vars->addr = mlx_get_data_addr(vars->img, &vars->bits_per_pixel, &vars->line_length, &vars->endian);
 	while (i < WIDTH)
