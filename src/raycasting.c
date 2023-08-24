@@ -6,7 +6,7 @@
 /*   By: bhennequ <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 16:40:21 by bhennequ          #+#    #+#             */
-/*   Updated: 2023/08/19 12:20:19 by bhennequ         ###   ########.fr       */
+/*   Updated: 2023/08/19 13:08:15 by bhennequ         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ t_data	*init_direction(t_data *vars)
 		vars->position->dirX = 0;
 		vars->position->dirY = 1;
 		vars->position->planeX = 0.66;
-        vars->position->planeY = 0;
+		vars->position->planeY = 0;
 	}
 	else
 	{
 		vars->position->dirX = 1;
 		vars->position->dirY = 0;
 		vars->position->planeX = 0;
-        vars->position->planeY = 0.66;
+		vars->position->planeY = 0.66;
 	}
 	return (vars);
 }
@@ -119,7 +119,7 @@ t_data	*wall_dist(t_data *vars)
 		vars->position->perpWallDist = (vars->position->sideDistX - vars->position->deltaDistX);
 	else
 		vars->position->perpWallDist = (vars->position->sideDistY - vars->position->deltaDistY);
-	vars->position->lineHeight = (int)(HEIGHT / vars->position->perpWallDist);	
+	vars->position->lineHeight = (int)(HEIGHT / vars->position->perpWallDist);
 	vars->position->drawStart = -vars->position->lineHeight / 2 + HEIGHT / 2;
 	if (vars->position->drawStart < 0)
 		vars->position->drawStart = 0;
@@ -162,8 +162,7 @@ void	draw_image(t_data *vars, int i)
 		if (j >= vars->position->drawStart && j <= vars->position->drawEnd)
 		{
 			if (vars->position->side == 0)
-			{		
-				//vars->color = 0xFF0000;
+			{
 				if (vars->position->raydirX > 0)
 					tex_num = 2;
 				else
@@ -171,7 +170,6 @@ void	draw_image(t_data *vars, int i)
 			}
 			else
 			{
-				//vars->color = 0x00FF00;
 				if (vars->position->raydirY > 0)
 					tex_num = 1;
 				else

@@ -3,7 +3,7 @@ SO ./texture/murcool.xpm
 WE ./texture/murcool.xpm
 EA ./texture/murcool.xpm
 
-F 020,50,100
+F 150,50,0
 C 0,0,220
 
 1111111111111111111111111

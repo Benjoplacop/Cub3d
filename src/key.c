@@ -6,7 +6,7 @@
 /*   By: bhennequ <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/09 16:10:59 by bhennequ          #+#    #+#             */
-/*   Updated: 2023/08/16 16:20:24 by bhennequ         ###   ########.fr       */
+/*   Updated: 2023/08/19 13:04:45 by bhennequ         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,13 @@
 
 int	move_right(t_data *vars)
 {
-	double	left_x;
-	double	left_y;
 	double	new_posex;
 	double	new_posey;
 	int		mapx;
 	int		mapy;
 
-	left_x = -vars->position->dirY;
-	left_y = vars->position->dirX;
-	new_posex = vars->position->x + left_x * 0.1;
-	new_posey = vars->position->y + left_y * 0.1;
+	new_posex = vars->position->x + -vars->position->dirY * 0.1;
+	new_posey = vars->position->y + vars->position->dirX * 0.1;
 	mapx = (int)new_posex;
 	mapy = (int)new_posey;
 	if (vars->map[mapx][mapy] == '0')
@@ -37,17 +33,13 @@ int	move_right(t_data *vars)
 
 int	move_left(t_data *vars)
 {
-	double	right_x;
-	double	right_y;
 	double	new_posex;
 	double	new_posey;
 	int		mapx;
 	int		mapy;
 
-	right_x = vars->position->dirY;
-	right_y = -vars->position->dirX;
-    new_posex = vars->position->x + right_x * 0.1;
-    new_posey = vars->position->y + right_y * 0.1;
+	new_posex = vars->position->x + vars->position->dirY * 0.1;
+	new_posey = vars->position->y + -vars->position->dirX * 0.1;
 	mapx = (int)new_posex;
 	mapy = (int)new_posey;
 	if (vars->map[mapx][mapy] == '0')
@@ -92,38 +84,38 @@ int	rotate_camera_left(t_data *vars)
 
 int	move_forward(t_data *vars)
 {
-	int		mapX;
-	int		mapY;
-	double	new_poseX;
-	double	new_poseY;
+	int		mapx;
+	int		mapy;
+	double	new_posex;
+	double	new_posey;
 
-	new_poseX = vars->position->x + vars->position->dirX * 0.1;
-	new_poseY = vars->position->y + vars->position->dirY * 0.1;
-	mapX = (int)new_poseX;
-	mapY = (int)new_poseY;
-	if (vars->map[mapX][mapY] == '0')
+	new_posex = vars->position->x + vars->position->dirX * 0.1;
+	new_posey = vars->position->y + vars->position->dirY * 0.1;
+	mapx = (int)new_posex;
+	mapy = (int)new_posey;
+	if (vars->map[mapx][mapy] == '0')
 	{
-		vars->position->x = new_poseX;
-		vars->position->y = new_poseY;
+		vars->position->x = new_posex;
+		vars->position->y = new_posey;
 	}
 	return (0);
 }
 
 int	move_backward(t_data *vars)
 {
-	int		mapX;
-	int		mapY;
-	double	new_poseX;
-	double	new_poseY;
+	int		mapx;
+	int		mapy;
+	double	new_posex;
+	double	new_posey;
 
-	new_poseX = vars->position->x - vars->position->dirX * 0.1;
-	new_poseY = vars->position->y - vars->position->dirY * 0.1;
-	mapX = (int)new_poseX;
-	mapY = (int)new_poseY;
-	if (vars->map[mapX][mapY] == '0')
+	new_posex = vars->position->x - vars->position->dirX * 0.1;
+	new_posey = vars->position->y - vars->position->dirY * 0.1;
+	mapx = (int)new_posex;
+	mapy = (int)new_posey;
+	if (vars->map[mapx][mapy] == '0')
 	{
-		vars->position->x = new_poseX;
-		vars->position->y = new_poseY;
+		vars->position->x = new_posex;
+		vars->position->y = new_posey;
 	}
 	return (0);
 }
@@ -165,6 +157,5 @@ int	key_utils(int key, t_data *vars)
 	{
 		rotate_camera_right(vars);
 	}
-//	printf("%i\n", key);
 	return (1);
 }

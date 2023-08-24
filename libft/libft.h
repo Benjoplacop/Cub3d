@@ -6,7 +6,7 @@
 /*   By: bhennequ <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/08 15:33:12 by bhennequ          #+#    #+#             */
-/*   Updated: 2023/06/26 17:52:54 by bhennequ         ###   ########.fr       */
+/*   Updated: 2023/08/24 14:30:25 by bhennequ         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int			ft_isalpha(int c);
 int			ft_isalnum(int c);
 int			ft_isascii(int c);
 int			ft_isprint(int c);
-int		ft_strlen(const char *c);
+int			ft_strlen(const char *c);
 void		*ft_memset(void *s, int c, size_t n);
 void		ft_bzero(void *s, size_t n);
 void		*ft_memcpy(void *dest, const void *src, size_t n);

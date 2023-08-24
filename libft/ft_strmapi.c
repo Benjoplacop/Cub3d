@@ -6,7 +6,7 @@
 /*   By: bhennequ <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/02 17:23:17 by bhennequ          #+#    #+#             */
-/*   Updated: 2023/06/26 17:53:26 by bhennequ         ###   ########.fr       */
+/*   Updated: 2023/08/24 14:30:11 by bhennequ         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 {
-	char		*tab;
+	char	*tab;
 	int		i;
 
 	i = 0;

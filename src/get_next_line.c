@@ -6,7 +6,7 @@
 /*   By: bhennequ <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 14:16:06 by bhennequ          #+#    #+#             */
-/*   Updated: 2023/08/02 16:16:47 by bhennequ         ###   ########.fr       */
+/*   Updated: 2023/08/24 14:26:53 by bhennequ         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char	*read_str(int fd, char *str)
 		if (read_size == -1)
 		{
 			free(buff);
+			free(str);
 			return (NULL);
 		}
 		buff[read_size] = '\0';

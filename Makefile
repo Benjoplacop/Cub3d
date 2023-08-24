@@ -1,6 +1,6 @@
 NAME = cub3D
 
-SRCS = src/main.c src/get_next_line.c src/map.c src/free.c src/raycasting.c src/color.c src/key.c
+SRCS = src/main.c src/get_next_line.c src/map.c src/free.c src/raycasting.c src/color.c src/key.c src/sizemap.c
 OBJS = $(SRCS:.c=.o)
 
 LIBFT_DIR = libft
@@ -13,7 +13,7 @@ INCLUDES = -I$(MLX_DIR) -I$(LIBFT_DIR)
 LIBRARIES = -L$(MLX_DIR) -lmlx -L$(LIBFT_DIR) -lft -lX11 -lXext -lm
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -fPIC
+CFLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 

@@ -6,7 +6,7 @@
 /*   By: bhennequ <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 12:38:55 by bhennequ          #+#    #+#             */
-/*   Updated: 2023/08/19 12:11:10 by bhennequ         ###   ########.fr       */
+/*   Updated: 2023/08/23 17:48:08 by bhennequ         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	good_arg(char **argv)
 	return (1);
 }
 
-t_texture *load_texture(t_data *vars)
+t_texture	*load_texture(t_data *vars)
 {
 	t_texture	*textures;
 
@@ -37,11 +37,11 @@ t_texture *load_texture(t_data *vars)
 	textures[0].width = 280;
 	textures[0].height = 180;
 	textures[1].width = 280;
-    textures[1].height = 180;
-    textures[2].width = 280;
-    textures[2].height = 180;
-    textures[3].width = 280;
-    textures[3].height = 180;
+	textures[1].height = 180;
+	textures[2].width = 280;
+	textures[2].height = 180;
+	textures[3].width = 280;
+	textures[3].height = 180;
 	textures[0].img = mlx_xpm_file_to_image(vars->mlx, vars->path->path_north, &textures[0].width, &textures[0].height);
 	textures[0].data = (int *)mlx_get_data_addr(textures[0].img, &vars->bits_per_pixel, &vars->line_length, &vars->endian);
 	textures[1].img = mlx_xpm_file_to_image(vars->mlx, vars->path->path_south, &textures[1].width, &textures[1].height);
@@ -99,7 +99,7 @@ void	init_mlx(t_data *vars)
 	mlx_loop(vars->mlx);
 }
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
 	t_data	*vars;
 	int		fd;
@@ -108,15 +108,20 @@ int main(int argc, char **argv)
 		return (1);
 	vars = malloc(sizeof(t_data));
 	vars->path = malloc(sizeof(t_path));
-	vars->map = malloc(sizeof(char *) * (2065));
 	vars->position = malloc(sizeof(t_position));
-	if (!vars || !vars->path || !vars->map || !vars->position)
+	fd = open(argv[1], O_RDONLY);
+	vars = take_map_size(fd, vars);
+	close(fd);
+	if (!vars || !vars->path || !vars->position)
 		return (1);
 	fd = open(argv[1], O_RDONLY);
 	vars = init(vars, fd);
 	if (vars->error != 0)
-		printf("bad map\n");
-		// return (1);
+	{
+		free_all_data(vars);
+		printf("Bad map\n");
+		return (1);
+	}
 	close(fd);
 	init_mlx(vars);
 	return (0);

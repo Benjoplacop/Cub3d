@@ -6,7 +6,7 @@
 /*   By: bhennequ <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 14:18:51 by bhennequ          #+#    #+#             */
-/*   Updated: 2023/08/17 15:51:11 by bhennequ         ###   ########.fr       */
+/*   Updated: 2023/08/23 17:47:18 by bhennequ         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ typedef	struct	s_data
 	int		img_heigth;
 	char	**map;
 	int		size_line;
+	int		size_map;
 	int		error;
 	t_path		*path;
 	t_texture	*texture;
@@ -101,6 +102,7 @@ typedef	struct	s_data
 	t_position	*position;
 }				t_data;
 
+t_data		*take_map_size(int fd, t_data *vars);
 t_texture	*load_texture(t_data *vars);
 t_data		*take_texture(t_data *vars);
 void    	my_mlx_pixel_put(t_data *vars, int x, int y, int color);
