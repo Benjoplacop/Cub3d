@@ -6,11 +6,33 @@
 /*   By: bhennequ <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 18:52:51 by bhennequ          #+#    #+#             */
-/*   Updated: 2023/08/24 14:29:07 by bhennequ         ###   ########.fr       */
+/*   Updated: 2023/09/11 19:07:28 by bhennequ         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Cub3d.h"
+
+void	free_data_if_bad_map(t_data *vars)
+{
+	int	i;
+
+	i = 0;
+	while (vars->map[i])
+	{
+		free(vars->map[i]);
+		i++;
+	}
+	free(vars->path->path_north);
+	free(vars->path->path_south);
+	free(vars->path->path_west);
+	free(vars->path->path_east);
+	free(vars->path->sol);
+	free(vars->path->plafond);
+	free(vars->map);
+	free(vars->path);
+	free(vars->position);
+	free(vars);
+}
 
 void	free_all_data(t_data *vars)
 {

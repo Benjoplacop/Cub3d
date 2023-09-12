@@ -6,7 +6,7 @@
 /*   By: bhennequ <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 13:50:26 by bhennequ          #+#    #+#             */
-/*   Updated: 2023/02/07 18:35:24 by bhennequ         ###   ########.fr       */
+/*   Updated: 2023/09/05 15:35:41 by bhennequ         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,14 @@
 void	ft_bzero(void *s, size_t n)
 {
 	unsigned char	*p;
+	int				i;
 
+	i = 0;
 	p = (unsigned char *)s;
 	while (n)
 	{
-		*p = '\0';
-		p++;
+		p[i] = '\0';
+		i++;
 		--n;
 	}
 }

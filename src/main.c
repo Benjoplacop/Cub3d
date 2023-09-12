@@ -6,64 +6,11 @@
 /*   By: bhennequ <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 12:38:55 by bhennequ          #+#    #+#             */
-/*   Updated: 2023/08/23 17:48:08 by bhennequ         ###   ########.fr       */
+/*   Updated: 2023/09/12 14:49:06 by bhennequ         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../Cub3d.h"
-
-int	good_arg(char **argv)
-{
-	int	i;
-
-	i = 0;
-	while (argv[1][i])
-		i++;
-	i--;
-	if ((argv[1][i] != 'b' && argv[1][i - 1] != 'u'
-		&& argv[1][i - 2] != 'c' && argv[1][i - 3] != '.') || i == 0)
-	{
-		ft_putstr_fd("Arguments need end by .cub\n", 1);
-		return (0);
-	}
-	return (1);
-}
-
-t_texture	*load_texture(t_data *vars)
-{
-	t_texture	*textures;
-
-	textures = malloc(sizeof(t_texture) * 4);
-	textures[0].width = 280;
-	textures[0].height = 180;
-	textures[1].width = 280;
-	textures[1].height = 180;
-	textures[2].width = 280;
-	textures[2].height = 180;
-	textures[3].width = 280;
-	textures[3].height = 180;
-	textures[0].img = mlx_xpm_file_to_image(vars->mlx, vars->path->path_north, &textures[0].width, &textures[0].height);
-	textures[0].data = (int *)mlx_get_data_addr(textures[0].img, &vars->bits_per_pixel, &vars->line_length, &vars->endian);
-	textures[1].img = mlx_xpm_file_to_image(vars->mlx, vars->path->path_south, &textures[1].width, &textures[1].height);
-	textures[1].data = (int *)mlx_get_data_addr(textures[1].img, &vars->bits_per_pixel, &vars->line_length, &vars->endian);
-	textures[2].img = mlx_xpm_file_to_image(vars->mlx, vars->path->path_east, &textures[2].width, &textures[2].height);
-	textures[2].data = (int *)mlx_get_data_addr(textures[2].img, &vars->bits_per_pixel, &vars->line_length, &vars->endian);
-	textures[3].img = mlx_xpm_file_to_image(vars->mlx, vars->path->path_west, &textures[3].width, &textures[3].height);
-	textures[3].data = (int *)mlx_get_data_addr(textures[3].img, &vars->bits_per_pixel, &vars->line_length, &vars->endian);
-	return (textures);
-}
-
-t_data	*parse_link(t_data *vars)
-{
-	vars->path->sol[ft_strlen(vars->path->sol) - 1] = '\0';
-	vars->path->plafond[ft_strlen(vars->path->plafond) - 1] = '\0';
-	vars->path->path_north[ft_strlen(vars->path->path_north) - 1] = '\0';
-	vars->path->path_south[ft_strlen(vars->path->path_south) - 1] = '\0';
-	vars->path->path_west[ft_strlen(vars->path->path_west) - 1] = '\0';
-	vars->path->path_east[ft_strlen(vars->path->path_east) - 1] = '\0';
-	vars->texture = load_texture(vars);
-	return (vars);
-}
 
 t_data	*init(t_data *vars, int fd)
 {
@@ -91,7 +38,8 @@ void	init_mlx(t_data *vars)
 	vars->mlx = mlx_init();
 	vars->win = mlx_new_window(vars->mlx, WIDTH, HEIGHT, "Hello World !");
 	vars->img = mlx_new_image(vars->mlx, WIDTH, HEIGHT);
-	vars->addr = mlx_get_data_addr(vars->img, &vars->bits_per_pixel, &vars->line_length, &vars->endian);
+	vars->addr = mlx_get_data_addr(vars->img, &vars->bits_per_pixel,
+			&vars->line_length, &vars->endian);
 	vars = parse_link(vars);
 	mlx_hook(vars->win, 17, 1L << 0, &destroy, vars);
 	mlx_key_hook(vars->win, key_utils, vars);
@@ -118,7 +66,7 @@ int	main(int argc, char **argv)
 	vars = init(vars, fd);
 	if (vars->error != 0)
 	{
-		free_all_data(vars);
+		free_data_if_bad_map(vars);
 		printf("Bad map\n");
 		return (1);
 	}

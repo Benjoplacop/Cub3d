@@ -6,7 +6,7 @@
 /*   By: bhennequ <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/23 14:18:51 by bhennequ          #+#    #+#             */
-/*   Updated: 2023/08/23 17:47:18 by bhennequ         ###   ########.fr       */
+/*   Updated: 2023/09/12 15:15:21 by bhennequ         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # define WIDTH 1920
 # define HEIGHT 1080
-# define BUFFER_SIZE 2064
+# define BUFFER_SIZE 1024
 
 # include <math.h>
 # include "libft/libft.h"
@@ -102,7 +102,17 @@ typedef	struct	s_data
 	t_position	*position;
 }				t_data;
 
+t_data		*carac_is_valid(t_data *vars);
+t_data		*position_init(t_data *vars);
+t_data		*map_is_valid(t_data *vars);
+t_data		*raycasting_base(t_data *vars, int i);
+t_data		*init_direction(t_data *vars);
+t_data		*side_dist(t_data *vars);
+t_data		*colision(t_data *vars);
+t_data		*wall_dist(t_data *vars);
+t_data		*calcul_text(t_data *vars, int tex_num, int j);
 t_data		*take_map_size(int fd, t_data *vars);
+t_data		*parse_link(t_data *vars);
 t_texture	*load_texture(t_data *vars);
 t_data		*take_texture(t_data *vars);
 void    	my_mlx_pixel_put(t_data *vars, int x, int y, int color);
@@ -111,9 +121,19 @@ int			init_raycasting(t_data *vars);
 void    	free_all_data(t_data *vars);
 int 		map_is_close(t_data *vars);
 t_data  	*take_map(int fd, t_data *vars);
-char		*get_next_line(int fd);
+char		*get_next_line(int fd, int fin);
 t_data		*map_is_valid(t_data *vars);
 t_data		*init_direction(t_data *vars);
 int 		transform_color(char *texture);
 int 		key_utils(int key, t_data *vars);
+int			good_arg(char **argv);
+int			move_left(t_data *vars);
+int			move_right(t_data *vars);
+int			map_is_long(t_data *vars);
+int			map_is_close(t_data *vars);
+int			rotate_camera_right(t_data *vars);
+int			rotate_camera_left(t_data *vars);
+void		free_data_if_bad_map(t_data *vars);
+void		draw_image(t_data *vars, int i);
+void		fill_map(t_data *vars);
 #endif
