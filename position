@@ -1,0 +1,291 @@
+		vars->error = 1;
+		vars->error = 1;
+	if (vars->error == 0)
+	while (vars->map[i])
+		free(vars->map[i]);
+	free(vars->path->path_north);
+	free(vars->path->path_south);
+	free(vars->path->path_west);
+	free(vars->path->path_east);
+	free(vars->path->sol);
+	free(vars->path->plafond);
+	free(vars->map);
+	free(vars->path);
+	free(vars->position);
+	while (vars->map[i])
+		free(vars->map[i]);
+	free(vars->map);
+	free(vars->path->path_north);
+	free(vars->path->path_south);
+	free(vars->path->path_west);
+	free(vars->path->path_east);
+	free(vars->path->sol);
+	free(vars->path->plafond);
+	free(vars->texture);
+	free(vars->path);
+	free(vars->position);
+	mlx_destroy_image(vars->mlx, vars->texture[0].img);
+	mlx_destroy_image(vars->mlx, vars->texture[1].img);
+	mlx_destroy_image(vars->mlx, vars->texture[2].img);
+	mlx_destroy_image(vars->mlx, vars->texture[3].img);
+	mlx_destroy_image(vars->mlx, vars->img);
+	mlx_clear_window(vars->mlx, vars->win);
+	mlx_destroy_window(vars->mlx, vars->win);
+	mlx_destroy_display(vars->mlx);
+	mlx_loop_end(vars->mlx);
+	free(vars->mlx);
+	textures[2].img = mlx_xpm_file_to_image(vars->mlx,
+			vars->path->path_south, &textures[2].width, &textures[2].height);
+			&vars->bits_per_pixel, &vars->line_length, &vars->endian);
+	textures[3].img = mlx_xpm_file_to_image(vars->mlx,
+			vars->path->path_north, &textures[3].width, &textures[3].height);
+			&vars->bits_per_pixel, &vars->line_length, &vars->endian);
+	textures[4].img = mlx_xpm_file_to_image(vars->mlx,
+			vars->path->door, &textures[4].width, &textures[4].height);
+			&vars->bits_per_pixel, &vars->line_length, &vars->endian);
+	textures[0].img = mlx_xpm_file_to_image(vars->mlx,
+			vars->path->path_east, &textures[0].width, &textures[0].height);
+			&vars->bits_per_pixel, &vars->line_length, &vars->endian);
+	textures[1].img = mlx_xpm_file_to_image(vars->mlx,
+			vars->path->path_west, &textures[1].width, &textures[1].height);
+			&vars->bits_per_pixel, &vars->line_length, &vars->endian);
+	vars->path->sol[ft_strlen(vars->path->sol) - 1] = '\0';
+	vars->path->plafond[ft_strlen(vars->path->plafond) - 1] = '\0';
+	vars->path->path_north[ft_strlen(vars->path->path_north) - 1] = '\0';
+	vars->path->path_south[ft_strlen(vars->path->path_south) - 1] = '\0';
+	vars->path->path_west[ft_strlen(vars->path->path_west) - 1] = '\0';
+	vars->path->path_east[ft_strlen(vars->path->path_east) - 1] = '\0';
+	vars->path->door[ft_strlen(vars->path->door) - 1] = '\0';
+	vars->texture = load_texture(vars);
+	new_posex = vars->position->x - vars->position->diry * 0.1;
+	new_posey = vars->position->y - vars->position->dirx * 0.1;
+	if (vars->map[mapx][mapy] == '0')
+		vars->position->x = new_posex;
+		vars->position->y = new_posey;
+	new_posex = vars->position->x + vars->position->diry * 0.1;
+	new_posey = vars->position->y + vars->position->dirx * 0.1;
+	if (vars->map[mapx][mapy] == '0')
+		vars->position->x = new_posex;
+		vars->position->y = new_posey;
+	olddirx = vars->position->dirx;
+	vars->position->dirx = vars->position->dirx * cos(rotspeed / 2)
+		- vars->position->diry * sin(rotspeed / 2);
+	vars->position->diry = olddirx * sin(rotspeed / 2)
+		+ vars->position->diry * cos(rotspeed / 2);
+	oldplanex = vars->position->planex;
+	vars->position->planex = vars->position->planex * cos(rotspeed / 2)
+		- vars->position->planey * sin(rotspeed / 2);
+	vars->position->planey = oldplanex * sin(rotspeed / 2)
+		+ vars->position->planey * cos(rotspeed / 2);
+	olddirx = vars->position->dirx;
+	vars->position->dirx = vars->position->dirx * cos(-rotspeed / 2)
+		- vars->position->diry * sin(-rotspeed / 2);
+	vars->position->diry = olddirx * sin(-rotspeed / 2)
+		+ vars->position->diry * cos(-rotspeed / 2);
+	oldplanex = vars->position->planex;
+	vars->position->planex = vars->position->planex * cos(-rotspeed / 2)
+		- vars->position->planey * sin(-rotspeed / 2);
+	vars->position->planey = oldplanex * sin(-rotspeed / 2)
+		+ vars->position->planey * cos(-rotspeed / 2);
+	new_posex = vars->position->x + vars->position->dirx * 0.1;
+	new_posey = vars->position->y - vars->position->diry * 0.1;
+	if (vars->map[mapx][mapy] == '0')
+		vars->position->x = new_posex;
+		vars->position->y = new_posey;
+	new_posex = vars->position->x - vars->position->dirx * 0.1;
+	new_posey = vars->position->y + vars->position->diry * 0.1;
+	if (vars->map[mapx][mapy] == '0')
+		vars->position->x = new_posex;
+		vars->position->y = new_posey;
+		if (vars->position->dirx != 0)
+		if (vars->position->dirx != 0)
+	vars->error = 0;
+	vars->path->pn = 0;
+	vars->path->ps = 0;
+	vars->path->pw = 0;
+	vars->path->pe = 0;
+	vars->path->pl = 0;
+	vars->path->so = 0;
+	if (vars->path->pn != 1 || vars->path->ps != 1
+		|| vars->path->pw != 1 || vars->path->pe != 1
+		|| vars->path->so != 1 || vars->path->pl != 1)
+		vars->error++;
+	vars->color_sol = transform_color(vars->path->sol, vars);
+	vars->color_plafond = transform_color(vars->path->plafond, vars);
+	vars->position->x = vars->init_pos.x + 0.5;
+	vars->position->mapx = (int)vars->position->x;
+	vars->position->y = vars->init_pos.y + 0.5;
+	vars->position->mapy = (int)vars->position->y;
+	dst = vars->addr + (y * vars->line_length + x * (vars->bits_per_pixel / 8));
+        if (x < vars->position->centre_x)
+        else if (x > vars->position->centre_x)
+        vars->position->centre_x = x;
+	vars->mlx = mlx_init();
+	vars->win = mlx_new_window(vars->mlx, WIDTH, HEIGHT, "Hello World !");
+	vars->img = mlx_new_image(vars->mlx, WIDTH, HEIGHT);
+	vars->addr = mlx_get_data_addr(vars->img, &vars->bits_per_pixel,
+			&vars->line_length, &vars->endian);
+	mlx_hook(vars->win, 17, 1L << 0, &destroy, vars);
+	mlx_key_hook(vars->win, key_utils, vars);
+	mlx_loop_hook(vars->mlx, init_raycasting, vars);
+	mlx_hook(vars->win, MotionNotify, PointerMotionMask, &mouse_event, vars);
+	mlx_loop(vars->mlx);
+	vars->path = malloc(sizeof(t_path));
+	vars->position = malloc(sizeof(t_position));
+	if (!vars || !vars->path || !vars->position)
+	if (vars->error != 0)
+	while (vars->map[i])
+		while (vars->map[i][j])
+			c = vars->map[i][j];
+				vars->error = 1;
+	vars->init_pos.x = i;
+	vars->init_pos.y = j;
+	vars->init_pos.dir = vars->map[i][j];
+	vars->map[i][j] = '0';
+	while (vars->map[i])
+		while (vars->map[i][j])
+			if (vars->map[i][j] == 'N' || vars->map[i][j] == 'E'
+				|| vars->map[i][j] == 'W' || vars->map[i][j] == 'S')
+		vars->error = 1;
+	while (vars->map[i])
+		while (vars->map[i][j])
+			if (ft_strncmp(vars->map[i], "\n\0", 2) == 0
+				&& !ft_strchr("\n\0", vars->map[i + 1][0]))
+	while (vars->map[i])
+		while (vars->map[i][j])
+			if (vars->map[i][j] == '0')
+				if (ft_strchr(" \n\0", vars->map[i + 1][j])
+					|| ft_strchr(" \n\0", vars->map[i - 1][j])
+					|| ft_strchr(" \n\0", vars->map[i][j + 1])
+					|| ft_strchr(" \n\0", vars->map[i][j - 1]))
+	while (vars->map[i][j])
+		if (vars->map[i][j] == '\n')
+			while (j < vars->size_line)
+		line[j] = vars->map[i][j];
+	free(vars->map[i]);
+	vars->map[i] = ft_strdup(line);
+	line = malloc(sizeof(char) * (vars->size_line + 1));
+	while (vars->map[i])
+	if (vars->path->path_north == NULL || vars->path->path_south == NULL
+		|| vars->path->path_east == NULL || vars->path->path_west == NULL
+		|| vars->path->sol == NULL || vars->path->plafond == NULL)
+		vars->error = 1;
+	vars->position->camerax = 2 * i / (double)WIDTH - 1;
+	vars->position->raydirx = vars->position->dirx
+		+ vars->position->planex * vars->position->camerax;
+	vars->position->raydiry = vars->position->diry
+		+ vars->position->planey * vars->position->camerax;
+	vars->position->mapx = (int)vars->position->x;
+	vars->position->mapy = (int)vars->position->y;
+	if (vars->position->raydirx == 0)
+		vars->position->deltadistx = 1e30;
+		vars->position->deltadistx = fabs(1 / vars->position->raydirx);
+	if (vars->position->raydirx == 0)
+		vars->position->deltadisty = 1e30;
+		vars->position->deltadisty = fabs(1 / vars->position->raydiry);
+	if (vars->init_pos.dir == 'E')
+		vars->position->dirx = 0;
+		vars->position->diry = 1;
+		vars->position->planex = 0.66;
+		vars->position->planey = 0;
+		vars->position->dirx = 1;
+		vars->position->diry = 0;
+		vars->position->planex = 0;
+		vars->position->planey = 0.66;
+	vars->position->centre_x = vars->img_width / 2;
+	if (vars->init_pos.dir == 'N')
+		vars->position->dirx = -1;
+		vars->position->diry = 0;
+		vars->position->planex = 0;
+		vars->position->planey = -0.66;
+	else if (vars->init_pos.dir == 'W')
+		vars->position->dirx = 0;
+		vars->position->diry = -1;
+		vars->position->planex = -0.66;
+		vars->position->planey = 0;
+	if (vars->position->raydirx < 0)
+		vars->position->stepx = -1;
+		vars->position->sidedistx = (vars->position->x
+				- vars->position->mapx) * vars->position->deltadistx;
+		vars->position->stepx = 1;
+		vars->position->sidedistx = (vars->position->mapx + 1
+				- vars->position->x) * vars->position->deltadistx;
+	if (vars->position->raydiry > 0)
+		vars->position->stepy = -1;
+		vars->position->sidedisty = (vars->position->y
+				- vars->position->mapy) * vars->position->deltadisty;
+		vars->position->stepy = 1;
+		vars->position->sidedisty = (vars->position->mapy + 1
+				- vars->position->y) * vars->position->deltadisty;
+		if (vars->position->sidedistx < vars->position->sidedisty)
+			vars->position->sidedistx += vars->position->deltadistx;
+			vars->position->mapx += vars->position->stepx;
+			vars->position->side = 0;
+			vars->position->sidedisty += vars->position->deltadisty;
+			vars->position->mapy += vars->position->stepy;
+			vars->position->side = 1;
+		if (vars->map[vars->position->mapx][vars->position->mapy] > '0')
+	if (vars->position->side == 0)
+		vars->position->perpwalldist = (vars->position->sidedistx
+				- vars->position->deltadistx);
+		vars->position->perpwalldist = (vars->position->sidedisty
+				- vars->position->deltadisty);
+	vars->position->lineheight = (int)(HEIGHT / vars->position->perpwalldist);
+	vars->position->drawstart = -vars->position->lineheight / 2 + HEIGHT / 2;
+	if (vars->position->drawstart < 0)
+		vars->position->drawstart = 0;
+	vars->position->drawend = vars->position->lineheight / 2 + HEIGHT / 2;
+	if (vars->position->drawend >= HEIGHT)
+		vars->position->drawend = HEIGHT - 1;
+	tex_width = vars->texture[tex_num].width;
+	tex_height = vars->texture[tex_num].height;
+	if (vars->position->side == 0)
+		wall_x = vars->position->y + vars->position->perpwalldist
+			* vars->position->raydiry;
+		wall_x = vars->position->x + vars->position->perpwalldist
+			* vars->position->raydirx;
+	vars->position->texx = (int)(wall_x * (double)tex_width);
+	vars->position->texy = ((((j - HEIGHT / 2 + vars->position->lineheight / 2)
+					* tex_height) / vars->position->lineheight) % tex_height);
+	if (vars->position->side == 0)
+		if (vars->position->raydirx > 0)
+		if (vars->position->raydiry > 0)
+	vars->color = vars->texture[tex_num].data[vars->position->texy
+		* vars->texture[tex_num].width + vars->position->texx];
+		if (j >= vars->position->drawstart && j <= vars->position->drawend)
+				vars->color = vars->color_sol;
+				vars->color = vars->color_plafond;
+		my_mlx_pixel_put(vars, i, j, vars->color);
+	dst = vars->addr + (y * vars->line_length + x * (vars->bits_per_pixel / 8));
+	while (vars->map[i])
+		while (vars->map[i][j])
+			if (vars->map[i][j] == '1')
+	draw_character(vars, vars->position->x, vars->position->y);
+	if (vars->img)
+		mlx_destroy_image(vars->mlx, vars->img);
+	vars->img = mlx_new_image(vars->mlx, WIDTH, HEIGHT);
+	vars->addr = mlx_get_data_addr(vars->img, &vars->bits_per_pixel,
+			&vars->line_length, &vars->endian);
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
+	vars->size_map = size;
+	vars->map = malloc(sizeof(char *) * (vars->size_map + 1));
+	if (!vars->map)
+	vars->size_line = ft_strlen(line);
+		vars->map[i] = ft_strdup(line);
+		if (ft_strlen(vars->map[i]) > vars->size_line && line)
+			vars->size_line = ft_strlen(vars->map[i]);
+	vars->map[i] = NULL;
+		vars->error = 1;
+		vars->path->pn++;
+		vars->path->path_north = dup_space(line + 3);
+		vars->path->ps++;
+		vars->path->path_south = dup_space(line + 3);
+		vars->path->pw++;
+		vars->path->path_west = dup_space(line + 3);
+		vars->path->pe++;
+		vars->path->path_east = dup_space(line + 3);
+		vars->path->door = dup_space(line + 5);
+		vars->path->so++;
+		vars->path->sol = dup_space(line + 2);
+		vars->path->pl++;
+		vars->path->plafond = dup_space(line + 2);

@@ -6,7 +6,7 @@
 /*   By: bhennequ <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/08/02 16:40:21 by bhennequ          #+#    #+#             */
-/*   Updated: 2023/09/12 13:50:52 by bhennequ         ###   ########.fr       */
+/*   Updated: 2023/11/20 10:57:06 by bhennequ         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,18 +15,18 @@
 t_data	*wall_dist(t_data *vars)
 {
 	if (vars->position->side == 0)
-		vars->position->perpWallDist = (vars->position->sideDistX
-				- vars->position->deltaDistX);
+		vars->position->perpwalldist = (vars->position->sidedistx
+				- vars->position->deltadistx);
 	else
-		vars->position->perpWallDist = (vars->position->sideDistY
-				- vars->position->deltaDistY);
-	vars->position->lineHeight = (int)(HEIGHT / vars->position->perpWallDist);
-	vars->position->drawStart = -vars->position->lineHeight / 2 + HEIGHT / 2;
-	if (vars->position->drawStart < 0)
-		vars->position->drawStart = 0;
-	vars->position->drawEnd = vars->position->lineHeight / 2 + HEIGHT / 2;
-	if (vars->position->drawEnd >= HEIGHT)
-		vars->position->drawEnd = HEIGHT - 1;
+		vars->position->perpwalldist = (vars->position->sidedisty
+				- vars->position->deltadisty);
+	vars->position->lineheight = (int)(HEIGHT / vars->position->perpwalldist);
+	vars->position->drawstart = -vars->position->lineheight / 2 + HEIGHT / 2;
+	if (vars->position->drawstart < 0)
+		vars->position->drawstart = 0;
+	vars->position->drawend = vars->position->lineheight / 2 + HEIGHT / 2;
+	if (vars->position->drawend >= HEIGHT)
+		vars->position->drawend = HEIGHT - 1;
 	return (vars);
 }
 
@@ -39,15 +39,15 @@ t_data	*calcul_text(t_data *vars, int tex_num, int j)
 	tex_width = vars->texture[tex_num].width;
 	tex_height = vars->texture[tex_num].height;
 	if (vars->position->side == 0)
-		wall_x = vars->position->y + vars->position->perpWallDist
-			* vars->position->raydirY;
+		wall_x = vars->position->y + vars->position->perpwalldist
+			* vars->position->raydiry;
 	else
-		wall_x = vars->position->x + vars->position->perpWallDist
-			* vars->position->raydirX;
+		wall_x = vars->position->x + vars->position->perpwalldist
+			* vars->position->raydirx;
 	wall_x -= floor(wall_x);
-	vars->position->texX = (int)(wall_x * (double)tex_width);
-	vars->position->texY = ((((j - HEIGHT / 2 + vars->position->lineHeight / 2)
-					* tex_height) / vars->position->lineHeight) % tex_height);
+	vars->position->texx = (int)(wall_x * (double)tex_width);
+	vars->position->texy = ((((j - HEIGHT / 2 + vars->position->lineheight / 2)
+					* tex_height) / vars->position->lineheight) % tex_height);
 	return (vars);
 }
 
@@ -57,43 +57,43 @@ t_data	*draw_text(t_data *vars, int j)
 
 	if (vars->position->side == 0)
 	{
-		if (vars->position->raydirX > 0)
+		if (vars->position->raydirx > 0)
 			tex_num = 2;
 		else
 			tex_num = 3;
 	}
 	else
 	{
-		if (vars->position->raydirY > 0)
+		if (vars->position->raydiry > 0)
 			tex_num = 1;
 		else
 			tex_num = 0;
 	}
+	if (vars->map[vars->position->mapx][vars->position->mapy] == 'D')
+		tex_num = 4;
+	if (vars->map[vars->position->mapx][vars->position->mapy] == 'd')
+		return (vars);
 	vars = calcul_text(vars, tex_num, j);
-	vars->color = vars->texture[tex_num].data[vars->position->texY
-		* vars->texture[tex_num].width + vars->position->texX];
+	vars->color = vars->texture[tex_num].data[vars->position->texy
+		* vars->texture[tex_num].width + vars->position->texx];
 	return (vars);
 }
 
 void	draw_image(t_data *vars, int i)
 {
 	int	j;
-	int	sol;
-	int	plafond;
 
-	sol = transform_color(vars->path->sol);
-	plafond = transform_color(vars->path->plafond);
 	j = 0;
 	while (j < HEIGHT)
 	{
-		if (j >= vars->position->drawStart && j <= vars->position->drawEnd)
+		if (j >= vars->position->drawstart && j <= vars->position->drawend)
 			vars = draw_text(vars, j);
 		else
 		{
 			if (j < HEIGHT / 2)
-				vars->color = sol;
+				vars->color = vars->color_sol;
 			else
-				vars->color = plafond;
+				vars->color = vars->color_plafond;
 		}
 		my_mlx_pixel_put(vars, i, j, vars->color);
 		j++;
@@ -119,6 +119,7 @@ int	init_raycasting(t_data *vars)
 		draw_image(vars, i);
 		i++;
 	}
+	draw_minimap(vars);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->img, 0, 0);
 	return (0);
 }

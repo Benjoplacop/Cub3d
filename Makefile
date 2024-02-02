@@ -1,6 +1,6 @@
 NAME = cub3D
 
-SRCS = src/main.c src/take_map.c src/map2.c src/key2.c src/init_cub.c src/get_next_line.c src/map.c src/free.c src/raycasting.c src/raycasting2.c src/color.c src/key.c src/sizemap.c
+SRCS = src/main.c src/take_map.c src/map2.c src/key2.c src/init_cub.c src/get_next_line.c src/map.c src/free.c src/raycasting.c src/raycasting2.c src/color.c src/key.c src/sizemap.c src/condition.c src/raycasting_door.c src/valid_texture_map.c 
 OBJS = $(SRCS:.c=.o)
 
 LIBFT_DIR = libft

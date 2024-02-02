@@ -6,7 +6,7 @@
 /*   By: bhennequ <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 13:56:57 by bhennequ          #+#    #+#             */
-/*   Updated: 2023/09/12 14:40:22 by bhennequ         ###   ########.fr       */
+/*   Updated: 2023/11/23 13:17:50 by bhennequ         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ int	move_right(t_data *vars)
 	int		mapx;
 	int		mapy;
 
-	new_posex = vars->position->x + -vars->position->dirY * 0.1;
-	new_posey = vars->position->y + vars->position->dirX * 0.1;
+	new_posex = vars->position->x + vars->position->diry * 0.1;
+	new_posey = vars->position->y + vars->position->dirx * 0.1;
 	mapx = (int)new_posex;
 	mapy = (int)new_posey;
-	if (vars->map[mapx][mapy] == '0')
+	if (vars->map[mapx][mapy] == '0' || vars->map[mapx][mapy] == 'd')
 	{
 		vars->position->x = new_posex;
 		vars->position->y = new_posey;
@@ -38,11 +38,11 @@ int	move_left(t_data *vars)
 	int		mapx;
 	int		mapy;
 
-	new_posex = vars->position->x + vars->position->dirY * 0.1;
-	new_posey = vars->position->y + -vars->position->dirX * 0.1;
+	new_posex = vars->position->x - vars->position->diry * 0.1;
+	new_posey = vars->position->y - vars->position->dirx * 0.1;
 	mapx = (int)new_posex;
 	mapy = (int)new_posey;
-	if (vars->map[mapx][mapy] == '0')
+	if (vars->map[mapx][mapy] == '0' || vars->map[mapx][mapy] == 'd')
 	{
 		vars->position->x = new_posex;
 		vars->position->y = new_posey;
@@ -56,17 +56,17 @@ int	rotate_camera_right(t_data *vars)
 	double	olddirx;
 	double	oldplanex;
 
-	rotspeed = 0.033 * 1.8;
-	olddirx = vars->position->dirX;
-	vars->position->dirX = vars->position->dirX * cos(rotspeed / 2)
-		- vars->position->dirY * sin(rotspeed / 2);
-	vars->position->dirY = olddirx * sin(rotspeed / 2)
-		+ vars->position->dirY * cos(rotspeed / 2);
-	oldplanex = vars->position->planeX;
-	vars->position->planeX = vars->position->planeX * cos(rotspeed / 2)
-		- vars->position->planeY * sin(rotspeed / 2);
-	vars->position->planeY = oldplanex * sin(rotspeed / 2)
-		+ vars->position->planeY * cos(rotspeed / 2);
+	rotspeed = 0.033 * 1.05;
+	olddirx = vars->position->dirx;
+	vars->position->dirx = vars->position->dirx * cos(rotspeed / 2)
+		- vars->position->diry * sin(rotspeed / 2);
+	vars->position->diry = olddirx * sin(rotspeed / 2)
+		+ vars->position->diry * cos(rotspeed / 2);
+	oldplanex = vars->position->planex;
+	vars->position->planex = vars->position->planex * cos(rotspeed / 2)
+		- vars->position->planey * sin(rotspeed / 2);
+	vars->position->planey = oldplanex * sin(rotspeed / 2)
+		+ vars->position->planey * cos(rotspeed / 2);
 	return (0);
 }
 
@@ -76,16 +76,16 @@ int	rotate_camera_left(t_data *vars)
 	double	olddirx;
 	double	oldplanex;
 
-	rotspeed = 0.033 * 1.8;
-	olddirx = vars->position->dirX;
-	vars->position->dirX = vars->position->dirX * cos(-rotspeed / 2)
-		- vars->position->dirY * sin(-rotspeed / 2);
-	vars->position->dirY = olddirx * sin(-rotspeed / 2)
-		+ vars->position->dirY * cos(-rotspeed / 2);
-	oldplanex = vars->position->planeX;
-	vars->position->planeX = vars->position->planeX * cos(-rotspeed / 2)
-		- vars->position->planeY * sin(-rotspeed / 2);
-	vars->position->planeY = oldplanex * sin(-rotspeed / 2)
-		+ vars->position->planeY * cos(-rotspeed / 2);
+	rotspeed = 0.033 * 1.05;
+	olddirx = vars->position->dirx;
+	vars->position->dirx = vars->position->dirx * cos(-rotspeed / 2)
+		- vars->position->diry * sin(-rotspeed / 2);
+	vars->position->diry = olddirx * sin(-rotspeed / 2)
+		+ vars->position->diry * cos(-rotspeed / 2);
+	oldplanex = vars->position->planex;
+	vars->position->planex = vars->position->planex * cos(-rotspeed / 2)
+		- vars->position->planey * sin(-rotspeed / 2);
+	vars->position->planey = oldplanex * sin(-rotspeed / 2)
+		+ vars->position->planey * cos(-rotspeed / 2);
 	return (0);
 }

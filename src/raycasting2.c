@@ -6,7 +6,7 @@
 /*   By: bhennequ <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 13:30:51 by bhennequ          #+#    #+#             */
-/*   Updated: 2023/09/12 14:55:47 by bhennequ         ###   ########.fr       */
+/*   Updated: 2023/11/23 13:21:21 by bhennequ         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,21 @@
 
 t_data	*raycasting_base(t_data *vars, int i)
 {
-	vars->position->cameraX = 2 * i / (double)WIDTH - 1;
-	vars->position->raydirX = vars->position->dirX
-		+ vars->position->planeX * vars->position->cameraX;
-	vars->position->raydirY = vars->position->dirY
-		+ vars->position->planeY * vars->position->cameraX;
-	vars->position->mapX = (int)vars->position->x;
-	vars->position->mapY = (int)vars->position->y;
-	if (vars->position->raydirX == 0)
-		vars->position->deltaDistX = 1e30;
+	vars->position->camerax = 2 * i / (double)WIDTH - 1;
+	vars->position->raydirx = vars->position->dirx
+		+ vars->position->planex * vars->position->camerax;
+	vars->position->raydiry = vars->position->diry
+		+ vars->position->planey * vars->position->camerax;
+	vars->position->mapx = (int)vars->position->x;
+	vars->position->mapy = (int)vars->position->y;
+	if (vars->position->raydirx == 0)
+		vars->position->deltadistx = 1e30;
 	else
-		vars->position->deltaDistX = fabs(1 / vars->position->raydirX);
-	if (vars->position->raydirX == 0)
-		vars->position->deltaDistY = 1e30;
+		vars->position->deltadistx = fabs(1 / vars->position->raydirx);
+	if (vars->position->raydiry == 0)
+		vars->position->deltadisty = 1e30;
 	else
-		vars->position->deltaDistY = fabs(1 / vars->position->raydirY);
+		vars->position->deltadisty = fabs(1 / vars->position->raydiry);
 	return (vars);
 }
 
@@ -36,36 +36,38 @@ t_data	*init_direction_two(t_data *vars)
 {
 	if (vars->init_pos.dir == 'E')
 	{
-		vars->position->dirX = 0;
-		vars->position->dirY = 1;
-		vars->position->planeX = 0.66;
-		vars->position->planeY = 0;
+		vars->position->dirx = 0;
+		vars->position->diry = -1;
+		vars->position->planex = 0.66;
+		vars->position->planey = 0;
 	}
 	else
 	{
-		vars->position->dirX = 1;
-		vars->position->dirY = 0;
-		vars->position->planeX = 0;
-		vars->position->planeY = 0.66;
+		vars->position->dirx = 1;
+		vars->position->diry = 0;
+		vars->position->planex = 0;
+		vars->position->planey = 0.66;
 	}
 	return (vars);
 }
 
 t_data	*init_direction(t_data *vars)
 {
+	vars->position->centre_x = WIDTH / 2;
+	vars->position->centre_y = HEIGHT / 2;
 	if (vars->init_pos.dir == 'N')
 	{
-		vars->position->dirX = -1;
-		vars->position->dirY = 0;
-		vars->position->planeX = 0;
-		vars->position->planeY = -0.66;
+		vars->position->dirx = -1;
+		vars->position->diry = 0;
+		vars->position->planex = 0;
+		vars->position->planey = -0.66;
 	}
 	else if (vars->init_pos.dir == 'W')
 	{
-		vars->position->dirX = 0;
-		vars->position->dirY = -1;
-		vars->position->planeX = -0.66;
-		vars->position->planeY = 0;
+		vars->position->dirx = 0;
+		vars->position->diry = 1;
+		vars->position->planex = -0.66;
+		vars->position->planey = 0;
 	}
 	else
 		vars = init_direction_two(vars);
@@ -74,29 +76,29 @@ t_data	*init_direction(t_data *vars)
 
 t_data	*side_dist(t_data *vars)
 {
-	if (vars->position->raydirX < 0)
+	if (vars->position->raydirx > 0)
 	{
-		vars->position->stepX = -1;
-		vars->position->sideDistX = (vars->position->x
-				- vars->position->mapX) * vars->position->deltaDistX;
+		vars->position->stepx = -1;
+		vars->position->sidedistx = (vars->position->x
+				- vars->position->mapx) * vars->position->deltadistx;
 	}
 	else
 	{
-		vars->position->stepX = 1;
-		vars->position->sideDistX = (vars->position->mapX + 1
-				- vars->position->x) * vars->position->deltaDistX;
+		vars->position->stepx = 1;
+		vars->position->sidedistx = (vars->position->mapx + 1
+				- vars->position->x) * vars->position->deltadistx;
 	}
-	if (vars->position->raydirY < 0)
+	if (vars->position->raydiry < 0)
 	{
-		vars->position->stepY = -1;
-		vars->position->sideDistY = (vars->position->y
-				- vars->position->mapY) * vars->position->deltaDistY;
+		vars->position->stepy = -1;
+		vars->position->sidedisty = (vars->position->y
+				- vars->position->mapy) * vars->position->deltadisty;
 	}
 	else
 	{
-		vars->position->stepY = 1;
-		vars->position->sideDistY = (vars->position->mapY + 1
-				- vars->position->y) * vars->position->deltaDistY;
+		vars->position->stepy = 1;
+		vars->position->sidedisty = (vars->position->mapy + 1
+				- vars->position->y) * vars->position->deltadisty;
 	}
 	return (vars);
 }
@@ -108,19 +110,20 @@ t_data	*colision(t_data *vars)
 	hit = 0;
 	while (hit == 0)
 	{
-		if (vars->position->sideDistX < vars->position->sideDistY)
+		if (vars->position->sidedistx < vars->position->sidedisty)
 		{
-			vars->position->sideDistX += vars->position->deltaDistX;
-			vars->position->mapX += vars->position->stepX;
+			vars->position->sidedistx += vars->position->deltadistx;
+			vars->position->mapx += vars->position->stepx;
 			vars->position->side = 0;
 		}
 		else
 		{
-			vars->position->sideDistY += vars->position->deltaDistY;
-			vars->position->mapY += vars->position->stepY;
+			vars->position->sidedisty += vars->position->deltadisty;
+			vars->position->mapy += vars->position->stepy;
 			vars->position->side = 1;
 		}
-		if (vars->map[vars->position->mapX][vars->position->mapY] > '0')
+		if (vars->map[vars->position->mapx][vars->position->mapy] != '0' &&
+				vars->map[vars->position->mapx][vars->position->mapy] != 'd')
 			hit = 1;
 	}
 	return (vars);

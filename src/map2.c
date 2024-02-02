@@ -6,7 +6,7 @@
 /*   By: bhennequ <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 15:05:43 by bhennequ          #+#    #+#             */
-/*   Updated: 2023/09/12 15:23:53 by bhennequ         ###   ########.fr       */
+/*   Updated: 2023/11/23 13:22:21 by bhennequ         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ t_data	*carac_is_valid(t_data *vars)
 		while (vars->map[i][j])
 		{
 			c = vars->map[i][j];
-			if (c != '0' && c != '1' && c != 'N'
-				&& c != 'W' && c != 'E' && c != 'S'
-				&& c != '\n' && c != '\0'
-				&& c != ' ')
+			if (condition_carac_valid(c, vars->door))
 			{
 				vars->error = 1;
 				return (vars);
@@ -45,6 +42,14 @@ t_data	*take_init_pos(t_data *vars, int i, int j)
 	vars->init_pos.x = i;
 	vars->init_pos.y = j;
 	vars->init_pos.dir = vars->map[i][j];
+	if (vars->init_pos.dir == 'N')
+		vars->init_pos.dir = 'S';
+	else if (vars->init_pos.dir == 'S')
+		vars->init_pos.dir = 'N';
+	else if (vars->init_pos.dir == 'W')
+		vars->init_pos.dir = 'E';
+	else
+		vars->init_pos.dir = 'W';
 	vars->map[i][j] = '0';
 	return (vars);
 }
@@ -103,7 +108,7 @@ int	map_is_close(t_data *vars)
 	int	i;
 	int	j;
 
-	if (map_is_long(vars) == 0)
+	if (map_is_long(vars) == 0 || jsp(vars) == 0)
 		return (0);
 	i = 0;
 	while (vars->map[i])
@@ -111,7 +116,7 @@ int	map_is_close(t_data *vars)
 		j = 0;
 		while (vars->map[i][j])
 		{
-			if (vars->map[i][j] == '0')
+			if (condition_map_close(i, j, vars))
 			{
 				if (ft_strchr(" \n\0", vars->map[i + 1][j])
 					|| ft_strchr(" \n\0", vars->map[i - 1][j])

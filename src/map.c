@@ -6,7 +6,7 @@
 /*   By: bhennequ <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/27 13:49:28 by bhennequ          #+#    #+#             */
-/*   Updated: 2023/09/12 15:33:54 by bhennequ         ###   ########.fr       */
+/*   Updated: 2023/11/23 15:52:47 by bhennequ         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,19 @@ void	test_file(t_data *vars)
 
 t_data	*map_is_valid(t_data *vars)
 {
-	vars = carac_is_valid(vars);
-	vars = position_init(vars);
+	if (vars->error == 0)
+	{
+		vars = carac_is_valid(vars);
+		vars = position_init(vars);
+	}
+	else
+	{
+		if (vars->error == 1)
+			free_data_if_bad_map(vars);
+		else
+			free_data_if_bad_map2(vars);
+		ft_putstr_fd("bad map\n", 1);
+		exit(1);
+	}
 	return (vars);
 }
